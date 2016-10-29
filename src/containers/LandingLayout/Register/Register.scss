@@ -1,0 +1,37 @@
+.list-wrapper {
+  .list-item {
+    display: flex;
+    padding: 25px 0;
+    align-items: center;
+
+    .list-item-label {
+      font-size: 1.125em;
+    }
+
+    .list-item-icon {
+      min-width: 50px;
+      margin-right: 10px;
+    }
+  }
+}
+
+.social-buttons-wrapper {
+  padding-top: 25px;
+
+  :global {
+    .btn-block + .btn-block {
+      margin-top: 15px;
+    }
+  }
+}
+
+.or {
+  padding: 15px 0;
+  font-weight: 700;
+  font-size: 1.125em;
+}
+
+.terms {
+  margin-top: 10px;
+  cursor: pointer;
+}

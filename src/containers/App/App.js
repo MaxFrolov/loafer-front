@@ -8,6 +8,7 @@ import config from '../../config'
 import { asyncConnect } from 'redux-async-connect'
 // styles
 import styles from './App.scss'
+require('react-datepicker/dist/react-datepicker.css')
 
 @asyncConnect([{
   promise: () => Promise.resolve()

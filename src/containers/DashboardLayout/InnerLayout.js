@@ -9,7 +9,7 @@ export default class InnerLayout extends Component {
 
   render () {
     return (
-      <div>
+      <div style={{ background: '#f3f3f3' }}>
         <InHeader/>
         {this.props.children}
       </div>

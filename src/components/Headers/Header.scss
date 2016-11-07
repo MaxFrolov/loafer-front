@@ -32,6 +32,10 @@
     .navbar {
       border-radius: 0;
     }
+
+    .navbar-inverse {
+      background-color: $gray-darker;
+    }
   }
 
   .nav-authorized  {

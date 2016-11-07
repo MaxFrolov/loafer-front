@@ -9,7 +9,7 @@ import classNames from 'classnames/bind'
 
 const avatarPlaceholder = require('./../user.svg')
 const cx = classNames.bind(styles)
-const logo = require('../logo.jpg')
+const logo = require('../logo-transparent.png')
 
 @connect((store) => ({ user: store.auth.user, router: store.routing }), { logout })
 export default class InnerHeader extends Component {
@@ -35,7 +35,7 @@ export default class InnerHeader extends Component {
       <Navbar default>
         <div className="row pb-15 pt-15">
           <div className="col-sm-4">
-            <button type="button" className="btn btn-cta-primary">Создать событие</button>
+            <button type="button" className="btn btn-cta-grey">Создать событие</button>
           </div>
           <div className="col-sm-4">
             <IndexLink to="/" style={{ display: 'flex', alignItems: 'center' }}>
@@ -87,13 +87,10 @@ export default class InnerHeader extends Component {
                 <NavItem>Карта встреч</NavItem>
               </LinkContainer>
               <LinkContainer to="/search">
-                <NavItem>Search</NavItem>
+                <NavItem>Круги</NavItem>
               </LinkContainer>
-              <LinkContainer to="/login">
-                <NavItem>Log in</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/register">
-                <NavItem>Join</NavItem>
+              <LinkContainer to="/profile">
+                <NavItem>Архив</NavItem>
               </LinkContainer>
             </Nav>
           </Navbar.Collapse>

@@ -25,3 +25,21 @@
 .btn-cta {
   padding: 8px 30px;
 }
+
+.btn-cta-grey {
+  background: transparent;
+  color: $gray-darker;
+  border: 1px solid $gray-darker;
+  transition: all 0.4s ease-in-out;
+  border-radius: 0;
+
+  &:active {
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+  }
+
+  &:hover, &:active, &:focus {
+    outline: none;
+    color: $gray-darker;
+    background: rgba(35, 40, 45, 0.05);
+  }
+}

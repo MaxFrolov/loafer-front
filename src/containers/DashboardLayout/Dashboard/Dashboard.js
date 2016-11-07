@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react'
+// components
 import GoogleMap from 'google-map-react'
-import TestMarker from './test'
-import moment from 'moment'
 import DatePicker from 'react-datepicker'
-import { NavItem, Nav, Tab } from 'react-bootstrap'
+// utils
+import moment from 'moment'
+// import TestMarker from './test'
 
 export default class Dashboard extends Component {
   static defaultProps = {
@@ -44,41 +45,13 @@ export default class Dashboard extends Component {
       <div>
         <div className="container-fluid">
           <div className="row">
-            <div className="col-sm-3">
-              <div className="sidebar sidebar-main text-left" style={{ marginTop: '75px' }}>
-                <div className="sidebar-content">
-                  <div className="sidebar-category sidebar-category-visible">
-                    <div className="category-content no-padding">
-                      <Tab.Container defaultActiveKey={1} id="left-tabs-example">
-                        <Nav className="navigation navigation-main navigation-accordion">
-                          <NavItem eventKey={1}>
-                            <i className="fa fa-home" />
-                            <span> Карта встреч</span>
-                          </NavItem>
-                          <NavItem eventKey={2}>
-                            <i className="fa fa-home" />
-                            <span> Список встреч</span>
-                          </NavItem>
-                          <NavItem eventKey={3}>
-                            <i className="fa fa-home" />
-                            <span> Друзья</span>
-                          </NavItem>
-                        </Nav>
-                      </Tab.Container>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-sm-9">
-              <h1>
-                Dashboard
-              </h1>
+            <div className="col-sm-8 col-sm-offset-2">
+              <h1 className="text-center">Карта встреч</h1>
               <div className="panel panel-default">
                 <div className="panel-body">
                   <div className="container-fluid">
                     <div className="row">
-                      <div className="col-sm-8">
+                      <div className="col-sm-10">
                         <div className="container-fluid">
                           <div className="row">
                             <div className="col-sm-12">
@@ -105,16 +78,14 @@ export default class Dashboard extends Component {
                               style={{ height: '400px' }}>
                               <GoogleMap
                                 defaultCenter={this.props.center}
-                                defaultZoom={this.props.zoom}
-                              >
-                                <TestMarker lat="50.4501" lng="32" key="30.5234"/>
-                              </GoogleMap>
+                                defaultZoom={this.props.zoom} />
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="col-sm-4">
-                        <button className="btn-cta-primary btn">Reload</button>
+                      <div className="col-sm-2">
+                        <button className="btn-cta-primary btn">Обновить</button>
+                        <h5 className="mt-20">Фильтры по спискам друзей:</h5>
                         <div className="checkbox c-checkbox mt-20">
                           <label>
                             <input

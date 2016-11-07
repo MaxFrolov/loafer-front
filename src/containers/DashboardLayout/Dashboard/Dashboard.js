@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 // components
 import GoogleMap from 'google-map-react'
 import DatePicker from 'react-datepicker'
+import FilterOptions from './FilterOptions'
 // utils
 import moment from 'moment'
 // import TestMarker from './test'
@@ -22,14 +23,17 @@ export default class Dashboard extends Component {
     super(...props)
 
     this.state = {
-      value: false,
+      filterOptions: {
+        circle: false,
+        followers: false
+      },
       startDate: moment().subtract(1, 'month'),
       endDate: moment()
     }
   }
 
-  handleChange (key, e) {
-    this.setState({ [key]: e.target.value })
+  handleChangeDate (key, date) {
+    this.setState({ [key]: date })
   }
 
   lessThanEndDate (date) {
@@ -40,7 +44,15 @@ export default class Dashboard extends Component {
     return date > this.state.startDate
   }
 
+  changeValue(e) {
+    const { filterOptions } = this.state
+    const target = e.target
+    filterOptions[target.name] = e.target.checked
+    this.setState({ filterOptions: filterOptions })
+  }
+
   render () {
+    const { filterOptions, startDate, endDate } = this.state
     return (
       <div>
         <div className="container-fluid">
@@ -57,20 +69,20 @@ export default class Dashboard extends Component {
                             <div className="col-sm-12">
                               <div className="date-period">
                                 <DatePicker
-                                  selected={this.state.startDate}
-                                  startDate={this.state.startDate}
-                                  endDate={this.state.endDate}
+                                  selected={startDate}
+                                  startDate={startDate}
+                                  endDate={endDate}
                                   filterDate={::this.lessThanEndDate}
                                   className="form-control"
-                                  onChange={this.handleChange.bind(this, 'startDate')} />
+                                  onChange={this.handleChangeDate.bind(this, 'startDate')} />
                                 <span className="dash ml-10 mr-10">—</span>
                                 <DatePicker
-                                  selected={this.state.endDate}
-                                  startDate={this.state.startDate}
-                                  endDate={this.state.endDate}
+                                  selected={endDate}
+                                  startDate={startDate}
+                                  endDate={endDate}
                                   filterDate={::this.greaterThanStartDate}
                                   className="form-control"
-                                  onChange={this.handleChange.bind(this, 'endDate')} />
+                                  onChange={this.handleChangeDate.bind(this, 'endDate')} />
                                 <i className="fa fa-calendar ml-10" />
                               </div>
                             </div>
@@ -86,42 +98,7 @@ export default class Dashboard extends Component {
                       <div className="col-sm-2">
                         <button className="btn-cta-primary btn">Обновить</button>
                         <h5 className="mt-20">Фильтры по спискам друзей:</h5>
-                        <div className="checkbox c-checkbox mt-20">
-                          <label>
-                            <input
-                              type="checkbox"
-                              onChange={this.handleChange.bind(this, 'value')}
-                              value={this.state.value}
-                              checked={this.state.value}
-                            />
-                            <em className="fa fa-check"/>
-                            <strong>Друзья</strong>
-                          </label>
-                        </div>
-                        <div className="checkbox c-checkbox mt-20">
-                          <label>
-                            <input
-                              type="checkbox"
-                              onChange={this.handleChange.bind(this, 'value')}
-                              value={this.state.value}
-                              checked={this.state.value}
-                            />
-                            <em className="fa fa-check"/>
-                            <strong>Круги</strong>
-                          </label>
-                        </div>
-                        <div className="checkbox c-checkbox mt-20">
-                          <label>
-                            <input
-                              type="checkbox"
-                              onChange={this.handleChange.bind(this, 'value')}
-                              value={this.state.value}
-                              checked={this.state.value}
-                            />
-                            <em className="fa fa-check"/>
-                            <strong>Подписчики</strong>
-                          </label>
-                        </div>
+                        <FilterOptions changeValue={::this.changeValue} filterOptions={filterOptions} />
                       </div>
                     </div>
                   </div>

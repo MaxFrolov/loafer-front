@@ -43,3 +43,8 @@
     background: rgba(35, 40, 45, 0.05);
   }
 }
+
+.active .btn-cta-grey {
+  background: $gray-darker;
+  color: #fff;
+}

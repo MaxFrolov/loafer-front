@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
+// components
 import { IndexLink } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { logout } from 'redux/modules/auth'
+// styles
 import styles from '../Header.scss'
 import classNames from 'classnames/bind'
-
+// constants
 const avatarPlaceholder = require('./../user.svg')
 const cx = classNames.bind(styles)
 const logo = require('../logo-transparent.png')
@@ -84,9 +86,9 @@ export default class InnerHeader extends Component {
           <Navbar.Collapse>
             <Nav pullLeft>
               <LinkContainer to="/dashboard">
-                <NavItem>Карта встреч</NavItem>
+                <NavItem>Поиск событий</NavItem>
               </LinkContainer>
-              <LinkContainer to="/search">
+              <LinkContainer to="/groups">
                 <NavItem>Круги</NavItem>
               </LinkContainer>
               <LinkContainer to="/profile">

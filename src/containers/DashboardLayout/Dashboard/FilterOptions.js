@@ -1,39 +1,29 @@
 import React, { PropTypes } from 'react'
 
-const FilterOptions = ({ changeValue, filterOptions }) => (
+const FilterOptions = ({ changeValue, filterOptions, filterFields }) => (
   <div>
-    <div className="checkbox c-checkbox mt-20">
-      <label>
-        <input
-          type="checkbox"
-          onChange={changeValue}
-          value={filterOptions.circle}
-          checked={filterOptions.circle}
-          name="circle"
-        />
-        <em className="fa fa-check"/>
-        <strong>Круги</strong>
-      </label>
-    </div>
-    <div className="checkbox c-checkbox mt-20">
-      <label>
-        <input
-          type="checkbox"
-          onChange={changeValue}
-          value={filterOptions.followers}
-          checked={filterOptions.followers}
-          name="followers"
-        />
-        <em className="fa fa-check"/>
-        <strong>Подписчики</strong>
-      </label>
-    </div>
+    {filterFields.map((item, idx) => (
+      <div key={idx} className="checkbox c-checkbox mt-20">
+        <label>
+          <input
+            type="checkbox"
+            onChange={changeValue}
+            value={filterOptions[item.key]}
+            checked={filterOptions[item.key]}
+            name={item.key}
+          />
+          <em className="fa fa-check"/>
+          <strong>{item.label}</strong>
+        </label>
+      </div>
+    ))}
   </div>
 )
 
 FilterOptions.propTypes = {
   changeValue: PropTypes.func.isRequired,
-  filterOptions: PropTypes.object.isRequired
+  filterOptions: PropTypes.object.isRequired,
+  filterFields: PropTypes.array.isRequired
 }
 
 export default FilterOptions

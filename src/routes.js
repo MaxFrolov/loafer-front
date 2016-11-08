@@ -1,5 +1,5 @@
 import React from 'react'
-import { IndexRoute, Route } from 'react-router'
+import { IndexRoute, Route, IndexRedirect } from 'react-router'
 import { setCurrentUser } from 'redux/modules/auth'
 import {
   App,
@@ -11,7 +11,9 @@ import {
   Recovery,
   Register,
   Reset,
-  Search,
+  Groups,
+  EventsIndex,
+  EventsMap,
   InnerLayout,
   LandingLayout
 } from 'containers'
@@ -51,11 +53,15 @@ export default (store, client) => {
         <Route path="login" component={Login}/>
         <Route path="recovery" component={Recovery}/>
         <Route path="register" component={Register}/>
-        <Route path="search" component={Search}/>
       </Route>
       <Route component={InnerLayout} onEnter={requireLogin}>
-        <Route path="dashboard" component={Dashboard}/>
+        <Route path="dashboard" component={Dashboard}>
+          <IndexRedirect to="map"/>
+          <Route path="map" component={EventsMap}/>
+          <Route path="events" component={EventsIndex}/>
+        </Route>
         <Route path="profile" component={Profile}/>
+        <Route path="groups" component={Groups}/>
       </Route>
       <Route path="*" component={NotFound} status={404}/>
     </Route>

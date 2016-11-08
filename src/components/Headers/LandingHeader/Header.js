@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
+// components
 import { IndexLink } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { logout } from 'redux/modules/auth'
+// styles
 import styles from '../Header.scss'
 import classNames from 'classnames/bind'
-
+// constants
 const avatarPlaceholder = require('./../user.svg')
 const cx = classNames.bind(styles)
 const logo = require('../logo.jpg')
@@ -33,8 +35,8 @@ export default class LandingHeader extends Component {
     const authorize = user ?
       <div className={styles['nav-header']}>
         <Nav pullRight className={cx('nav-authorized')}>
-          <LinkContainer to="/search">
-            <NavItem>Главная</NavItem>
+          <LinkContainer to="/groups">
+            <NavItem>Круги</NavItem>
           </LinkContainer>
           <LinkContainer active={false} to="/profile">
             <NavItem className={cx('navLink', 'avatarLink', 'hidden-xs')}>

@@ -34,6 +34,7 @@ $z-index-main-section:                    111;
 html {
   /* $replace rtl */ direction: ltr;
   height: 100%;
+  font-size: 14px;
   // http://updates.html5rocks.com/2013/12/300ms-tap-delay-gone-away
   -ms-touch-action: manipulation;
     touch-action: manipulation;

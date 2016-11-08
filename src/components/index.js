@@ -8,3 +8,4 @@
 export Field from './Field/Field'
 export InHeader from './Headers/InnerHeader/Header'
 export LaHeader from './Headers/LandingHeader/Header'
+export DashboardForm from './InnerLayout/DashboardForm/DashboardForm'

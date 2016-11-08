@@ -2,9 +2,39 @@
 
 .header-wrapper {
 
+  .header-top {
+    background: #fff;
+
+    :global {
+      .navbar-default {
+        margin-bottom: 0;
+        background: #fff;
+        border-color: #fff;
+
+        .navbar-nav > li {
+          > a {
+            color: #3a3f51;
+
+            &.dropdown-toggle {
+              padding: 10px 5px;
+            }
+          }
+
+          > .dropdown-menu {
+              margin-top: 15px;
+          }
+        }
+      }
+    }
+  }
+
   :global {
     .navbar {
       border-radius: 0;
+    }
+
+    .navbar-inverse {
+      background-color: $gray-darker;
     }
   }
 

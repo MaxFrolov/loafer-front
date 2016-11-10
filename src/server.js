@@ -57,6 +57,7 @@ proxy.on('error', (error, req, res) => {
 })
 
 app.use((req, res) => {
+  global.navigator = { userAgent: req.header['user-agent'] }
   const authData = {
     uid: req.cookies.uid,
     client: req.cookies.client,

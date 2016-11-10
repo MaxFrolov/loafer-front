@@ -50,6 +50,7 @@ export default class Html extends Component {
         <body>
           <div id="content" dangerouslySetInnerHTML={{__html: content}}/>
           <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(store.getState())};`}} charSet="UTF-8"/>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByf-IU-ZbC14k8gKTDmsQrb9ZK-_GKvq4&v=3.25&libraries=places"></script>
           <script src={assets.javascript.main} charSet="UTF-8"/>
         </body>
       </html>

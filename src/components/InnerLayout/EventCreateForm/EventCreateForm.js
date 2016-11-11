@@ -3,19 +3,18 @@ import React, { Component, PropTypes } from 'react'
 import { reduxForm } from 'redux-form'
 import Field from 'components/Field/Field'
 import Geosuggest from 'react-geosuggest'
-import DatePicker from 'react-datepicker'
+import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
 // styles
 import styles from './eventCreateForm.scss'
 import classNames from 'classnames/bind'
-// utils
-import moment from 'moment'
 
 const cx = classNames.bind(styles)
 
 @reduxForm({
   form: 'eventCreateForm',
-  fields: ['title', '_private', 'lat', 'lng', 'address', 'subtitle', 'members_count', 'start_date', 'start_time']
+  fields: ['title', '_private', 'lat', 'lng', 'address', 'subtitle', 'members_count', 'start_date', 'start_time',
+    'approximate_time']
 })
 
 export default class EventCreateForm extends Component {
@@ -36,10 +35,8 @@ export default class EventCreateForm extends Component {
   }
 
   render () {
-    const { fields: { title, _private, subtitle, members_count, address, start_date, start_time }, handleSubmit, error,
-      submitting } = this.props
-    const dateFormat = 'DD/MM/YYYY'
-    const dateSelected = start_date.value ? moment(start_date.value, dateFormat) : null
+    const { fields: { title, _private, subtitle, members_count, address, start_date, start_time, approximate_time },
+      handleSubmit, error, submitting } = this.props
     return (
       <form className={error && 'has-error'} onSubmit={handleSubmit} role="form">
         <div className="form-group">
@@ -60,10 +57,8 @@ export default class EventCreateForm extends Component {
             <br />
             <DatePicker
               {...start_date}
-              selected={dateSelected}
-              dateFormat={dateFormat}
-              minDate={moment()}
-              className="form-control"
+              onChange={(e, value) => start_date.onChange(value)}
+              hintText="Укажите дату события"
             />
           </Field>
         </div>
@@ -75,7 +70,19 @@ export default class EventCreateForm extends Component {
               {...start_time}
               onChange={(e, value) => start_time.onChange(value)}
               format="ampm"
-              hintText="12hr Format"
+              hintText="Укажите время события"
+            />
+          </Field>
+        </div>
+        <div className="form-group">
+          <Field field={approximate_time}>
+            <label>Примерное время события</label>
+            <br />
+            <TimePicker
+              {...approximate_time}
+              onChange={(e, value) => approximate_time.onChange(value)}
+              format="24hr"
+              hintText="Укажите примерное время"
             />
           </Field>
         </div>

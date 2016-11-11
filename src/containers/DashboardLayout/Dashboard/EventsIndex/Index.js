@@ -1,10 +1,17 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 // components
+import { asyncConnect } from 'redux-async-connect'
 import Helmet from 'react-helmet'
 // constants
 const avatarPlaceholder = require('./user.svg')
 
+@asyncConnect([
+  { key: 'events', promise: ({ helpers }) => helpers.client.get('/events') }
+])
 export default class EventsIndex extends Component {
+  static propTypes = {
+    events: PropTypes.array
+  }
 
   render () {
     const seedData = [

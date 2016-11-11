@@ -5,6 +5,7 @@ import { reducer as toastrReducer } from 'react-redux-toastr'
 import { reducer as form } from 'redux-form'
 import modals from './modals'
 import { LOGOUT, auth } from './auth'
+import events from './events'
 
 const appReducer = combineReducers({
   routing: routerReducer,
@@ -12,7 +13,8 @@ const appReducer = combineReducers({
   reduxAsyncConnect,
   form,
   modals,
-  auth
+  auth,
+  events
 })
 
 export default (state, action) => {

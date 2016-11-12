@@ -37,7 +37,9 @@ export default class InnerHeader extends Component {
       <Navbar default>
         <div className="row pb-15 pt-15">
           <div className="col-sm-4">
-            <button type="button" className="btn btn-cta-grey">Создать событие</button>
+            <LinkContainer to="/event">
+              <button type="button" className="btn btn-cta-grey">Создать событие</button>
+            </LinkContainer>
           </div>
           <div className="col-sm-4">
             <IndexLink to="/" style={{ display: 'flex', alignItems: 'center' }}>

@@ -13,6 +13,7 @@ import {
   Reset,
   Groups,
   EventsIndex,
+  EventCreate,
   EventsMap,
   InnerLayout,
   LandingLayout
@@ -62,6 +63,11 @@ export default (store, client) => {
         </Route>
         <Route path="profile" component={Profile}/>
         <Route path="groups" component={Groups}/>
+        <Route path="event">
+          <IndexRedirect to="new" />
+          <Route path="new" component={EventCreate}/>
+          <Route path="show" component={EventCreate}/>
+        </Route>
       </Route>
       <Route path="*" component={NotFound} status={404}/>
     </Route>

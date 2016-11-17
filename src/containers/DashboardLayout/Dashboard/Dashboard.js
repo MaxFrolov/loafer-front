@@ -2,10 +2,13 @@ import React, { Component, PropTypes } from 'react'
 // components
 import FilterOptions from './FilterOptions'
 import DashboardHeader from './DashboardHeader'
-// import TestMarker from './test'
+import { asyncConnect } from 'redux-async-connect'
 // constants
 import { filterFields } from './constants'
 
+@asyncConnect([
+  { key: 'events', promise: ({ helpers }) => helpers.client.get('/events') }
+])
 export default class Dashboard extends Component {
   static propTypes = {
     children: PropTypes.object

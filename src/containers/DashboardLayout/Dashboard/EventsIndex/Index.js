@@ -1,31 +1,24 @@
 import React, { Component, PropTypes } from 'react'
 // components
-import { asyncConnect } from 'redux-async-connect'
 import Helmet from 'react-helmet'
+import { connect } from 'react-redux'
 // constants
 const avatarPlaceholder = require('./user.svg')
 
-@asyncConnect([
-  { key: 'events', promise: ({ helpers }) => helpers.client.get('/events') }
-])
+@connect((state) => ({ events: state.reduxAsyncConnect.events }), null)
 export default class EventsIndex extends Component {
   static propTypes = {
-    events: PropTypes.array
+    events: PropTypes.object.isRequired
   }
 
   render () {
-    const seedData = [
-      { title: 'Нереальный заголовок' },
-      { title: 'Мясной заголовок' },
-      { title: 'Супер заголовок' },
-      { title: 'Четкий заголовок' }
-    ]
+    const { events } = this.props
     return (
       <div className="row">
         <Helmet title="Events"/>
         <div className="col-sm-12">
           <div className="list-group">
-            {seedData.map((item, idx) => (
+            {events.resources.map((item, idx) => (
               <div className="list-group-item" key={idx}>
                 <div className="media-box">
                   <div className="pull-left text-center">

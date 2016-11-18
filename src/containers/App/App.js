@@ -2,7 +2,7 @@ import React from 'react'
 // components
 import Helmet from 'react-helmet'
 import ReduxToastr from 'react-redux-toastr'
-import MainModals from 'containers/MainModals/MainModals'
+import { Modals } from 'components'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 // utils
 import config from '../../config'
@@ -36,9 +36,9 @@ export default class App extends React.Component {
     return (
       <MuiThemeProvider>
         <div className={styles['app']}>
-          <Helmet {...config.app.head}/>
-          <ReduxToastr timeOut={4000} position="top-right"/>
-          <MainModals/>
+          <Helmet {...config.app.head} />
+          <ReduxToastr timeOut={4000} position="top-right" />
+          <Modals />
           <div>
             {this.props.children}
           </div>

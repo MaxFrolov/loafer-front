@@ -32,7 +32,7 @@ export default class InnerHeader extends Component {
 
   render () {
     const { user } = this.props
-    const fullName = user.resource.full_name
+    const fullName = user.full_name
     const authorize = (
       <Navbar default>
         <div className="row pb-15 pt-15">
@@ -51,7 +51,7 @@ export default class InnerHeader extends Component {
               <Nav pullRight>
                 <LinkContainer active={false} to="/profile">
                   <NavItem className={cx('navLink', 'avatarLink', 'hidden-xs')}>
-                    <img src={avatarPlaceholder} role="presentation"/>
+                    <img src={user.avatar_url || avatarPlaceholder} role="presentation"/>
                   </NavItem>
                 </LinkContainer>
                 <NavDropdown id="nav-dropdown" title={fullName}>

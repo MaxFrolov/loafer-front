@@ -20,6 +20,7 @@ export default class ImageUpload extends React.Component {
           className={cx('img-rounded', 'avatar-img')}
           role="presentation"
           src={user.avatar_url || avatarPlaceholder}
+          style={{ maxWidth: '50px' }}
         />
         <div>
           <div className={cx('upload-button', 'text-center')}>

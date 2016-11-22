@@ -7,7 +7,9 @@ const UPDATE_USER = 'auth/UPDATE_USER'
 
 const LOGOUT = 'auth/LOGOUT'
 
-const initialState = {}
+const initialState = {
+  user: null
+}
 
 // AUTH REDUCER
 
@@ -62,10 +64,32 @@ export function recoveryPassword (data) {
 
 export function registration (data) {
   return (dispatch, getState, client) => client.post('auth', { data, auth: true })
-    .then((response) => dispatch(setCurrentUser(response)))
+    .then((response) => dispatch(setCurrentUser(response.resource)))
 }
 
 export function login (data) {
   return (dispatch, getState, client) => client.post('auth/sign_in', { data, auth: true })
-    .then((response) => dispatch(setCurrentUser(response)))
+    .then((response) => {
+      console.log(response)
+      dispatch(setCurrentUser(response))
+    })
+}
+
+export function validateUser () {
+  return (dispatch, getState, client) => client.get('auth/validate_token', { auth: true })
+    .then((response) => {
+      dispatch(setCurrentUser(response.resource))
+      return response.resource
+    })
+}
+
+export function updateUser (data, user_id) {
+  return (dispatch, getState, client) => client.put(`users/${user_id}`, { data: { resource: data } })
+    .then((response) => {
+      dispatch(setCurrentUser(response.resource))
+      return response
+    })
+    .catch((error) => {
+      throw error
+    })
 }

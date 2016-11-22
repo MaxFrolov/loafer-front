@@ -4,6 +4,7 @@ import { clearData } from 'helpers/authData'
 
 const SET_USER = 'auth/SET_USER'
 const UPDATE_USER = 'auth/UPDATE_USER'
+export const SET_USER_TOKEN = 'auth/SET_USER_TOKEN'
 
 const LOGOUT = 'auth/LOGOUT'
 
@@ -27,6 +28,11 @@ export function auth (state = initialState, action = {}) {
           ...action.userData
         }
       }
+    case SET_USER_TOKEN: {
+      return {
+        ...state, ...action.data
+      }
+    }
     case LOGOUT:
       return {
         ...initialState
@@ -71,7 +77,7 @@ export function login (data) {
   return (dispatch, getState, client) => client.post('auth/sign_in', { data, auth: true })
     .then((response) => {
       console.log(response)
-      dispatch(setCurrentUser(response))
+      dispatch(setCurrentUser(response.resource))
     })
 }
 

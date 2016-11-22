@@ -4,7 +4,7 @@ import { PersonalDetails, ChangePassword, ImageUploader } from 'components'
 import { showOnly as showModal } from 'redux/modules/modals'
 import { connect } from 'react-redux'
 
-@connect((state) => ({ user: state.auth.user.resource }), { showModal })
+@connect((state) => ({ user: state.auth.user }), { showModal })
 export default class Profile extends Component {
   static propTypes = {
     showModal: PropTypes.func.isRequired,

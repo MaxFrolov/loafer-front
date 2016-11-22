@@ -10,7 +10,6 @@ import { asyncConnect } from 'redux-async-connect'
 // styles
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import styles from './App.scss'
-require('react-datepicker/dist/react-datepicker.css')
 
 injectTapEventPlugin()
 

@@ -13,13 +13,13 @@ export default class ImageUpload extends React.Component {
   };
 
   render () {
-    const { user, uploadImage } = this.props
+    const { uploadImage } = this.props
     return (
       <div className={cx('image-container', 'avatar', 'img-responsive')}>
         <img
           className={cx('img-rounded', 'avatar-img')}
           role="presentation"
-          src={user.avatar_url || avatarPlaceholder}
+          src={avatarPlaceholder}
           style={{ maxWidth: '50px' }}
         />
         <div>

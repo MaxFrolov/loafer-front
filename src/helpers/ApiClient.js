@@ -1,6 +1,9 @@
 import superagent from 'superagent'
 import config from '../config'
 import { getAuthData, setAuthData } from './authData'
+import _ from 'lodash'
+import { validateUser, LOGOUT } from 'redux/modules/auth'
+import cookies from 'browser-cookies'
 
 const methods = ['get', 'post', 'put', 'patch', 'del']
 
@@ -20,48 +23,80 @@ function formatUrl (path) {
 }
 
 class _ApiClient {
-  constructor (authCookie) {
+  constructor (authCookie, response) {
     methods.forEach((method) => (
-      this[method] = (path, { params, data, auth } = {}) => new Promise((resolve, reject) => {
-        const request = superagent[method](formatUrl(path))
+      this[method] = (path, { params, data, auth } = {}) =>
+        new Promise((resolve, reject) => {
+          const request = superagent[method](formatUrl(path))
 
-        const headers = ['access-token', 'client', 'uid', 'expiry']
+          const headers = ['access-token', 'client', 'uid', 'expiry']
 
-        const authDataSource = __SERVER__ ? authCookie : getAuthData()
+          const authDataSource = __SERVER__ ? authCookie : getAuthData()
 
-        headers.forEach((header) => {
-          request.set(header, authDataSource[header])
-        })
+          // Check if authorize data present and set headers
+          if (!_.isEmpty(_.pickBy(authDataSource))) {
+            headers.forEach((header) => {
+              request.set(header, authDataSource[header])
+            })
 
-        request.set('token-type', 'Bearer')
+            request.set('token-type', 'Bearer')
+          }
 
-        if (params) {
-          request.query(params)
-        }
+          if (params) {
+            request.query(params)
+          }
 
-        if (data) {
-          request.send(data)
-        }
+          if (data) {
+            request.send(data)
+          }
 
-        if (auth) {
-          request.end((err, res) => {
-            if (err) {
-              reject(res.body || err)
-            } else {
-              const data = {
-                client: res.header['client'],
-                uid: res.header['uid'],
-                expiry: res.header['expiry'],
-                'access-token': res.header['access-token']
+          if (!__SERVER__ && !this.validateUser) this.validateAuthData()
+
+          if (auth) {
+            request.end((err, res) => {
+              if (err) {
+                if (__SERVER__ && err.status === 401) {
+                  headers.forEach(header => {
+                    response.clearCookie(header)
+                  })
+                }
+                reject(res.body || err)
+              } else {
+                const data = {}
+                headers.forEach(header => {
+                  data[header] = res.header[header]
+                })
+                data.id = _.get(res, 'body.resource.id')
+                if (!__SERVER__) setAuthData(data)
+                resolve(res.body)
               }
-              if (!__SERVER__) setAuthData(data)
-              resolve(res.body)
-            }
-          })
-        } else {
-          request.end((err, { body } = {}) => (err ? reject(body || err) : resolve(body)))
-        }
-      })))
+              this.validateUser = false
+            })
+          } else {
+            request.end((err, { body } = {}) => (err ? reject(body || err) : resolve(body)))
+          }
+        })
+    ))
+  }
+
+  setStore = (store) => {
+    this.store = store
+  }
+
+  validateAuthData = () => {
+    const user = this.store.getState().auth.user
+    const cookieToken = cookies.get('access-token')
+    const cookieId = cookies.get('id')
+    if (cookieToken && user && (user.id !== parseInt(cookieId, 10))) {
+      this.validateUser = true
+      return this.store.dispatch(validateUser(getAuthData()))
+    }
+    if (!cookieToken && user) {
+      return this.store.dispatch({
+        type: LOGOUT
+      })
+    }
+    return false
   }
 }
 

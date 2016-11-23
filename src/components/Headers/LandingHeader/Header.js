@@ -32,7 +32,7 @@ export default class LandingHeader extends Component {
 
   render () {
     const { user } = this.props
-    const fullName = user && user.resource.full_name
+    const fullName = user && user.full_name
     const authorize = user ?
       <div className={styles['nav-header']}>
         <Nav pullRight className={cx('nav-authorized')}>
@@ -47,7 +47,7 @@ export default class LandingHeader extends Component {
               <img src={avatarPlaceholder} role="presentation"/>
             </NavItem>
           </LinkContainer>
-          <NavDropdown id="nav-dropdown" title={fullName}>
+          <NavDropdown id="nav-dropdown" title={fullName || ''}>
             <LinkContainer to="/profile">
               <MenuItem>
                 Profile

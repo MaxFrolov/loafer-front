@@ -32,7 +32,7 @@ export default class InnerHeader extends Component {
 
   render () {
     const { user } = this.props
-    const fullName = user.resource.full_name
+    const fullName = user && user.full_name
     const authorize = (
       <Navbar default>
         <div className="row pb-15 pt-15">

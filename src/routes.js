@@ -19,13 +19,13 @@ import {
   LandingLayout
 } from 'containers'
 
-export default (store, client) => {
+export default (store, client, authData) => {
   function preLoadUser (nextState, replace, proceed) {
     const auth = store.getState().auth
     if (!auth.user) {
-      if (auth.client && __SERVER__) {
-        client.get('auth/validate_token', { data: auth, auth: true }).then(result => {
-          store.dispatch(setCurrentUser(result))
+      if (authData && authData.client && __SERVER__) {
+        client.get('auth/validate_token', { auth: true }).then(result => {
+          store.dispatch(setCurrentUser(result.resource))
           proceed()
         }).catch(() => {
           proceed()

@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import { registration } from 'redux/modules/auth'
-import { showOnly as showModal } from 'redux/modules/modals'
 import Helmet from 'react-helmet'
 import Field from 'components/Field/Field'
 import { toastr } from 'react-redux-toastr'
@@ -11,11 +10,10 @@ import classNames from 'classnames/bind'
 import responseErrorsParser from 'helpers/responseErrorsParser'
 
 const cx = classNames.bind(styles)
-@connect(null, { registration, showModal })
+@connect(null, { registration })
 export default class Join extends React.Component {
   static propTypes = {
-    registration: React.PropTypes.func.isRequired,
-    showModal: React.PropTypes.func.isRequired
+    registration: React.PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -100,7 +98,6 @@ export default class Join extends React.Component {
   }
 
   render () {
-    const { showModal } = this.props
     return (
       <div className="animated fadeIn">
         <Helmet title="Join"/>
@@ -157,12 +154,6 @@ export default class Join extends React.Component {
                   -OR-
                 </div>
                 <Join.Form onSubmit={this.onSubmit}/>
-                <div className={cx('text-center', 'terms')}>
-                  {'By clicking you agree the '}
-                  <a onClick={() => showModal('terms')}>
-                    Terms and Conditions
-                  </a>
-                </div>
               </div>
             </div>
           </div>

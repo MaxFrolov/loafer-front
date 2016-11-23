@@ -33,7 +33,7 @@ app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')))
 
 app.use(Express.static(path.join(__dirname, '..', 'static')))
 
-app.use(Express.static(path.join(__dirname, '..', '..', 'brocoders', 'public')))
+app.use(Express.static(path.join(__dirname, '..', '..', 'loafer', 'public')))
 
 app.use(cookieParser());
 
@@ -57,7 +57,6 @@ proxy.on('error', (error, req, res) => {
 })
 
 app.use((req, res) => {
-  global.navigator = { userAgent: req.header['user-agent'] }
   const authData = {
     uid: req.cookies.uid,
     client: req.cookies.client,
@@ -69,14 +68,14 @@ app.use((req, res) => {
     // hot module replacement is enabled in the development env
     webpackIsomorphicTools.refresh()
   }
-  const client = new ApiClient(authData)
+  const client = new ApiClient(authData, res)
   const memoryHistory = createHistory(req.originalUrl)
-  const store = createStore(memoryHistory, client, { auth: authData })
+  const store = createStore(memoryHistory, client)
   const history = syncHistoryWithStore(memoryHistory, store)
 
   function hydrateOnClient() {
     res.send('<!doctype html>\n' +
-      ReactDOM.renderToStaticMarkup(<Html assets={webpackIsomorphicTools.assets()} store={store}/>))
+      ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>))
   }
 
   if (__DISABLE_SSR__) {
@@ -84,7 +83,11 @@ app.use((req, res) => {
     return
   }
 
-  match({ history, routes: getRoutes(store, client), location: req.originalUrl }, (error, redirectLocation, renderProps) => {
+  match({
+    history,
+    routes: getRoutes(store, client, authData),
+    location: req.originalUrl
+  }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search)
     } else if (error) {
@@ -104,7 +107,7 @@ app.use((req, res) => {
         global.navigator = {userAgent: req.headers['user-agent']}
 
         res.send('<!doctype html>\n' +
-          ReactDOM.renderToStaticMarkup(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>))
+          ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>))
       })
     } else {
       res.status(404).send('Not found')

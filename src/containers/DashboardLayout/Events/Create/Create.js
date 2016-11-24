@@ -71,6 +71,7 @@ export default class EventCreate extends Component {
   render () {
     const { markerLocation, mapCenter } = this.state
     const mapOptions = { mapTypeControl: false, streetViewControl: false, center: mapCenter, zoom: mapCenter ? 13 : 9 }
+    const initialValues = { members_count: 1 }
     return (
       <div>
         <Helmet title="Event Create"/>
@@ -93,7 +94,9 @@ export default class EventCreate extends Component {
                     </div>
                   </div>
                   <div className="col-sm-6">
-                    <EventForm onSubmit={::this.handleSubmit} changeLocation={::this.changeLocation} />
+                    <EventForm onSubmit={::this.handleSubmit}
+                      changeLocation={::this.changeLocation}
+                      initialValues={initialValues} />
                   </div>
                 </div>
               </div>

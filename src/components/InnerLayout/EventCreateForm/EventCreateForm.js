@@ -89,7 +89,7 @@ export default class EventCreateForm extends Component {
         <div className="form-group">
           <Field field={members_count}>
             <label>Количество мест</label>
-            <input type="number" min="1" className="form-control" {...members_count} value={members_count.value || 1} />
+            <input type="number" min="1" className="form-control" {...members_count} />
           </Field>
         </div>
         <div className="checkbox c-checkbox mt-20">

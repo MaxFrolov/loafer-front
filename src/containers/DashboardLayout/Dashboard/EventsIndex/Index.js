@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react'
 // components
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
-import Moment from 'moment'
+// utils
+import moment from 'moment'
 // constants
 const avatarPlaceholder = require('./user.svg')
 
@@ -13,7 +14,6 @@ export default class EventsIndex extends Component {
   }
 
   render () {
-    Moment.locale('ru')
     const { events } = this.props
     return (
       <div className="row">
@@ -25,7 +25,7 @@ export default class EventsIndex extends Component {
                 <div className="media-box">
                   <div className="pull-left text-center">
                     <img src={avatarPlaceholder} alt="avatar" className="media-box-object img-circle thumb64 mb-10"/>
-                    <span>{(new Moment(item.start_date)).format('HH:mm')}</span>
+                    <span>{moment(item.start_date).format('HH:mm')}</span>
                   </div>
                   <div className="media-box-body clearfix">
                     <p>
@@ -33,7 +33,7 @@ export default class EventsIndex extends Component {
                       <br />
                       <span>{item.subtitle}</span>
                     </p>
-                    <p>{(new Moment(item.start_date)).format('D MMMM Y')}</p>
+                    <p>{moment(item.start_date).format('D MMMM Y')}</p>
                     <p className="no-margin-bottom">
                       <span>"Loafer cafe"</span>
                       <br />

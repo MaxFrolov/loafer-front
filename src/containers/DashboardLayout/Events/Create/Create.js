@@ -11,7 +11,7 @@ import responseErrorsParser from 'helpers/responseErrorsParser'
 
 const marker = require('./marker.png')
 
-@connect(null, { createEvent })
+@connect((state) => ({ user: state.auth.user }), { createEvent })
 export default class EventCreate extends Component {
   static defaultProps = {
     defaultCenter: { lat: 49, lng: 32 },
@@ -21,7 +21,8 @@ export default class EventCreate extends Component {
   static propTypes = {
     zoom: PropTypes.number,
     defaultCenter: PropTypes.object,
-    createEvent: PropTypes.func.isRequired
+    createEvent: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -38,7 +39,7 @@ export default class EventCreate extends Component {
   }
 
   handleSubmit (data) {
-    const { createEvent } = this.props
+    const { createEvent, user } = this.props
     const { router } = this.context
 
     const startHours = new Date(data.start_time).getHours()
@@ -53,7 +54,7 @@ export default class EventCreate extends Component {
     data.private = data['_private']
     data['_private'] = undefined
 
-    return createEvent(data).then(() => {
+    return createEvent(data, user.id).then(() => {
       router.push('dashboard/events')
       toastr.success('Событие успешно создано')
     }).catch((errors) => responseErrorsParser(errors))

@@ -13,7 +13,7 @@ export default class EventsIndex extends Component {
   }
 
   render () {
-    Moment.lang('ru')
+    Moment.locale('ru')
     const { events } = this.props
     return (
       <div className="row">

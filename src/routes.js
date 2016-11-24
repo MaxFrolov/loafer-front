@@ -8,6 +8,10 @@ import {
   NotFound,
   Login,
   Profile,
+  ProfileSettings,
+  ProfileSettingsUpdate,
+  ProfileAccountUpdate,
+  ProfileNotifications,
   Recovery,
   Register,
   Reset,
@@ -61,7 +65,13 @@ export default (store, client, authData) => {
           <Route path="map" component={EventsMap}/>
           <Route path="events" component={EventsIndex}/>
         </Route>
-        <Route path="profile" component={Profile}/>
+        <Route path="profile" component={Profile}>
+          <IndexRedirect to="settings" />
+          <Route path="settings" component={ProfileSettings}/>
+          <Route path="settings/update" component={ProfileSettingsUpdate}/>
+          <Route path="account/update" component={ProfileAccountUpdate}/>
+          <Route path="notifications" component={ProfileNotifications}/>
+        </Route>
         <Route path="groups" component={Groups}/>
         <Route path="event">
           <IndexRedirect to="new" />

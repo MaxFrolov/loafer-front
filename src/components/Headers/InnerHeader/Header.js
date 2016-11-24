@@ -9,7 +9,7 @@ import { logout } from 'redux/modules/auth'
 import styles from '../Header.scss'
 import classNames from 'classnames/bind'
 // constants
-const avatarPlaceholder = require('./../user.svg')
+const avatarPlaceholder = require('../../../../static/user.svg')
 const cx = classNames.bind(styles)
 const logo = require('../logo-transparent.png')
 
@@ -51,7 +51,7 @@ export default class InnerHeader extends Component {
               <Nav pullRight>
                 <LinkContainer active={false} to="/profile">
                   <NavItem className={cx('navLink', 'avatarLink', 'hidden-xs')}>
-                    <img src={avatarPlaceholder} role="presentation"/>
+                    <img src={user.avatar_url || avatarPlaceholder} role="presentation"/>
                   </NavItem>
                 </LinkContainer>
                 <NavDropdown id="nav-dropdown" title={fullName}>

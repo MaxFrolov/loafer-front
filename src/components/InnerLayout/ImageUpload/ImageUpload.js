@@ -2,10 +2,10 @@ import React from 'react'
 // styles
 import classNames from 'classnames/bind'
 import styles from './ImageUpload.scss'
-
+// constants
 const avatarPlaceholder = require('../../../../static/user.svg')
-
 const cx = classNames.bind(styles)
+
 export default class ImageUpload extends React.Component {
   static propTypes = {
     user: React.PropTypes.object.isRequired,
@@ -13,24 +13,15 @@ export default class ImageUpload extends React.Component {
   };
 
   render () {
-    const { uploadImage } = this.props
+    const { uploadImage, user } = this.props
     return (
-      <div className={cx('image-container', 'avatar', 'img-responsive')}>
-        <img
-          className={cx('img-rounded', 'avatar-img')}
-          role="presentation"
-          src={avatarPlaceholder}
-          style={{ maxWidth: '50px' }}
-        />
-        <div>
-          <div className={cx('upload-button', 'text-center')}>
-            <span className="btn-primary">Upload</span>
-            <input
-              className={'input'}
-              type="file"
-              onChange={uploadImage}
-            />
-          </div>
+      <div className="text-center">
+        <img className="img-rounded block-center img-responsive" role="presentation"
+          src={user.avatar_url || avatarPlaceholder} style={{ maxWidth: '150px' }} />
+        <div className={cx('btn btn-default mt-10', 'upload-button-wrapper')}>
+          <input className={cx('fa fa-upload mr', 'upload')} type="file" onChange={uploadImage} />
+          <span className="icon-span-filestyle fa fa-upload mr" />
+          <span className="buttonText">Обновить аватар</span>
         </div>
       </div>
     )

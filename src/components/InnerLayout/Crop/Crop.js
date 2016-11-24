@@ -47,7 +47,7 @@ export default class Crop extends Component {
           aspectRatio={1}
           guides={false}
         />}
-        <button className="btn btn-primary" onClick={::this.cropImage}>Обрезать фото</button>
+        <button className="btn btn-primary mt-10" onClick={::this.cropImage}>Обрезать фото</button>
       </div>
     )
   }

@@ -48,7 +48,7 @@ export default class ChangePasswordForm extends Component {
         </div>
         <div className="form-group">
           <div className="col-sm-offset-3 col-sm-8 text-center">
-            <button className="btn btn-primary mt-lg" type="submit">Сохранить</button>
+            <button className="btn btn-primary mt-lg" type="submit">Изменить пароль</button>
           </div>
         </div>
       </form>

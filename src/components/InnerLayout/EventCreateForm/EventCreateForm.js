@@ -69,7 +69,7 @@ export default class EventCreateForm extends Component {
             <TimePicker
               {...start_time}
               onChange={(e, value) => start_time.onChange(value)}
-              format="ampm"
+              format="24hr"
               hintText="Укажите время события"
             />
           </Field>

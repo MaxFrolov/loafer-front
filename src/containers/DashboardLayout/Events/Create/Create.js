@@ -40,9 +40,15 @@ export default class EventCreate extends Component {
   handleSubmit (data) {
     const { createEvent } = this.props
     const { router } = this.context
-    const startTime = new Date(data.start_time).getTime()
+
+    const startHours = new Date(data.start_time).getHours()
+    const startMinutes = new Date(data.start_time).getMinutes()
     const startDate = new Date(data.start_date)
-    data.start_date = startDate.setTime(startTime)
+
+    startDate.setHours(startHours)
+    startDate.setMinutes(startMinutes)
+    data.start_date = new Date(startDate)
+
     data.start_time = undefined
     data.private = data['_private']
     data['_private'] = undefined

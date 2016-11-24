@@ -66,10 +66,10 @@ export function getEvent (id) {
   }
 }
 
-export function createEvent (data) {
+export function createEvent (data, userID) {
   return (dispatch, getState, client) => {
     dispatch(setEventLoading(true))
-    return client.post('events', { data: { resource: data } })
+    return client.post(`users/${userID}/events`, { data: { resource: data } })
       .then((response) => {
         dispatch(setEventData(response.resource))
         dispatch(setEventLoading(false))

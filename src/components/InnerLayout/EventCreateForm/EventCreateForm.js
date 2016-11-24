@@ -69,7 +69,7 @@ export default class EventCreateForm extends Component {
             <TimePicker
               {...start_time}
               onChange={(e, value) => start_time.onChange(value)}
-              format="ampm"
+              format="24hr"
               hintText="Укажите время события"
             />
           </Field>
@@ -89,7 +89,7 @@ export default class EventCreateForm extends Component {
         <div className="form-group">
           <Field field={members_count}>
             <label>Количество мест</label>
-            <input type="number" min="1" className="form-control" {...members_count} value={members_count.value || 1} />
+            <input type="number" min="1" className="form-control" {...members_count} />
           </Field>
         </div>
         <div className="checkbox c-checkbox mt-20">

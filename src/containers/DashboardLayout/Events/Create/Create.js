@@ -11,7 +11,7 @@ import responseErrorsParser from 'helpers/responseErrorsParser'
 
 const marker = require('./marker.png')
 
-@connect(null, { createEvent })
+@connect((state) => ({ user: state.auth.user }), { createEvent })
 export default class EventCreate extends Component {
   static defaultProps = {
     defaultCenter: { lat: 49, lng: 32 },
@@ -21,7 +21,8 @@ export default class EventCreate extends Component {
   static propTypes = {
     zoom: PropTypes.number,
     defaultCenter: PropTypes.object,
-    createEvent: PropTypes.func.isRequired
+    createEvent: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -38,16 +39,22 @@ export default class EventCreate extends Component {
   }
 
   handleSubmit (data) {
-    const { createEvent } = this.props
+    const { createEvent, user } = this.props
     const { router } = this.context
-    const startTime = new Date(data.start_time).getTime()
+
+    const startHours = new Date(data.start_time).getHours()
+    const startMinutes = new Date(data.start_time).getMinutes()
     const startDate = new Date(data.start_date)
-    data.start_date = startDate.setTime(startTime)
+
+    startDate.setHours(startHours)
+    startDate.setMinutes(startMinutes)
+    data.start_date = new Date(startDate)
+
     data.start_time = undefined
     data.private = data['_private']
     data['_private'] = undefined
 
-    return createEvent(data).then(() => {
+    return createEvent(data, user.id).then(() => {
       router.push('dashboard/events')
       toastr.success('Событие успешно создано')
     }).catch((errors) => responseErrorsParser(errors))
@@ -64,6 +71,7 @@ export default class EventCreate extends Component {
   render () {
     const { markerLocation, mapCenter } = this.state
     const mapOptions = { mapTypeControl: false, streetViewControl: false, center: mapCenter, zoom: mapCenter ? 13 : 9 }
+    const initialValues = { members_count: 1 }
     return (
       <div>
         <Helmet title="Event Create"/>
@@ -86,7 +94,9 @@ export default class EventCreate extends Component {
                     </div>
                   </div>
                   <div className="col-sm-6">
-                    <EventForm onSubmit={::this.handleSubmit} changeLocation={::this.changeLocation} />
+                    <EventForm onSubmit={::this.handleSubmit}
+                      changeLocation={::this.changeLocation}
+                      initialValues={initialValues} />
                   </div>
                 </div>
               </div>

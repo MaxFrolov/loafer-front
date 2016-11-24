@@ -7,6 +7,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 // utils
 import config from '../../config'
 import { asyncConnect } from 'redux-async-connect'
+import moment from 'moment'
 // styles
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import styles from './App.scss'
@@ -32,6 +33,7 @@ export default class App extends React.Component {
   }
 
   render () {
+    moment.locale('ru')
     return (
       <MuiThemeProvider>
         <div className={styles['app']}>

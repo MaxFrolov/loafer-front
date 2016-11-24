@@ -13,7 +13,7 @@ const DashboardHeader = () => (
       <div className="row">
         <div className="col-sm-6">
           <div className="input-group m-b">
-            <input type="text" className="form-control" />
+            <input type="text" className="form-control" placeholder="Введите название события или категорию..." />
             <span className="input-group-addon"><i className="fa fa-search" /></span>
           </div>
         </div>

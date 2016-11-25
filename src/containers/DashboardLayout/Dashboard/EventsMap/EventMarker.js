@@ -5,6 +5,8 @@ import classNames from 'classnames/bind'
 // constants
 const cx = classNames.bind(styles)
 const marker = require('./marker.svg')
+// utils
+import moment from 'moment'
 
 export default class EventMarker extends Component {
   static propTypes = {
@@ -32,13 +34,19 @@ export default class EventMarker extends Component {
     return (
       <div style={{ position: 'absolute' }}>
         <div className={styles['map-marker-wrapper']} onMouseLeave={::this.setMarkerHidden}>
-          <img src={marker} alt="marker" className={styles['map-marker']} onMouseEnter={::this.setMarkerVisible} />
+          <img src={marker} alt="marker" className={cx('map-marker', { 'map-marker-hover': hoverOn })}
+            onMouseEnter={::this.setMarkerVisible} />
           <div className={cx('panel panel-default', 'map-marker-panel', { 'panel-visible': hoverOn })}>
-            <div className="panel-heading text-center">
-              {event.title}
+            <div className="panel-heading">
+              <h6>{event.title}</h6>
+              <i>{event.subtitle}</i>
             </div>
             <div className="panel-body">
-              <h5>{event.subtitle}</h5>
+              <span className="text-bold">Дата: </span>{moment(event.start_date).format('D MMMM Y')}
+              <br />
+              <span className="text-bold">Время: </span>{moment(event.start_date).format('HH:mm')}
+              <br />
+              <span className="text-bold">Количество мест: </span><span>{event.members_count}</span>
             </div>
           </div>
         </div>

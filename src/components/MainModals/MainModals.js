@@ -5,7 +5,7 @@ import { ImageCrop } from 'components'
 
 const MainModals = () => (
   <div>
-    <Modal type="crop" title="Crop image">
+    <Modal type="crop" title="Выберите размер фото">
       <ImageCrop />
     </Modal>
   </div>

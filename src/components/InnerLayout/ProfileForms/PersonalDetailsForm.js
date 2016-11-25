@@ -26,7 +26,7 @@ export default class PersonalDetailsForm extends Component {
           <Field field={first_name}>
             <label className="col-sm-3 control-label text-right">Имя</label>
             <div className="col-sm-8">
-              <input type="text" placeholder="First Name" className="form-control" {...first_name} />
+              <input type="text" placeholder="Имя" className="form-control" {...first_name} />
             </div>
           </Field>
         </div>
@@ -34,7 +34,7 @@ export default class PersonalDetailsForm extends Component {
           <Field field={last_name}>
             <label className="col-sm-3 control-label text-right">Фамилия</label>
             <div className="col-sm-8">
-              <input type="text" placeholder="Last Name" className="form-control" {...last_name} />
+              <input type="text" placeholder="Фамилия" className="form-control" {...last_name} />
             </div>
           </Field>
         </div>
@@ -42,7 +42,7 @@ export default class PersonalDetailsForm extends Component {
           <label className="col-sm-3 control-label text-right">Телефон</label>
           <div className="col-sm-8">
             <Field field={phone}>
-              <input type="tel" placeholder="Phone" className="form-control" {...phone} />
+              <input type="tel" placeholder="Телефон" className="form-control" {...phone} />
             </Field>
           </div>
         </div>
@@ -55,8 +55,8 @@ export default class PersonalDetailsForm extends Component {
           </div>
         </div>
         <div className="form-group">
-          <div className="col-sm-offset-3 col-sm-8 text-center">
-            <button className="btn btn-primary mt-lg" type="submit">Сохранить</button>
+          <div className="col-sm-offset-3 col-sm-8">
+            <button className="btn btn-primary mt-lg" type="submit">Обновить профиль</button>
           </div>
         </div>
       </form>

@@ -18,6 +18,7 @@ import {
   Groups,
   EventsIndex,
   EventCreate,
+  EventShow,
   EventsMap,
   InnerLayout,
   LandingLayout
@@ -76,7 +77,7 @@ export default (store, client, authData) => {
         <Route path="event">
           <IndexRedirect to="new" />
           <Route path="new" component={EventCreate}/>
-          <Route path="show" component={EventCreate}/>
+          <Route path="show/:id" component={EventShow}/>
         </Route>
       </Route>
       <Route path="*" component={NotFound} status={404}/>

@@ -34,10 +34,11 @@ export default class EventMarker extends Component {
     return (
       <div style={{ position: 'absolute' }}>
         <div className={styles['map-marker-wrapper']} onMouseLeave={::this.setMarkerHidden}>
-          <img src={marker} alt="marker" className={styles['map-marker']} onMouseEnter={::this.setMarkerVisible} />
+          <img src={marker} alt="marker" className={cx('map-marker', { 'map-marker-hover': hoverOn })}
+            onMouseEnter={::this.setMarkerVisible} />
           <div className={cx('panel panel-default', 'map-marker-panel', { 'panel-visible': hoverOn })}>
-            <div className="panel-heading text-center">
-              <h5>{event.title}</h5>
+            <div className="panel-heading">
+              <h6>{event.title}</h6>
               <i>{event.subtitle}</i>
             </div>
             <div className="panel-body">

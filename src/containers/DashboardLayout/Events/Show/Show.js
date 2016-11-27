@@ -1,26 +1,49 @@
 import React, { Component, PropTypes } from 'react'
 // components
-import { asyncConnect } from 'redux-async-connect'
+import { asyncConnect, loadSuccess } from 'redux-async-connect'
 import GoogleMap from 'google-map-react'
+import { Link } from 'react-router'
+import toastr from 'react-redux-toastr'
+import { connect } from 'react-redux'
 // utils
 import moment from 'moment'
 // constants
-const marker = require('./marker.svg')
+const marker = require('../../../../../static/marker.svg')
 
 @asyncConnect([
   { key: 'event',
     promise: ({ params, helpers }) => helpers.client.get(`events/${params.id}`)
   }
 ])
+
+@connect((state) => ({ user: state.auth.user }), { loadSuccess })
 export default class Show extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
-    zoom: PropTypes.number.isRequired
+    user: PropTypes.object.isRequired,
+    zoom: PropTypes.number.isRequired,
+    loadSuccess: PropTypes.func.isRequired
   };
 
   static defaultProps = {
     zoom: 9
   };
+
+  static contextTypes = {
+    client: React.PropTypes.object.isRequired
+  };
+
+  acceptEvent () {
+    const { client } = this.context
+    const { event: { resource }, loadSuccess, user } = this.props
+    const entity = { event_id: user.id }
+
+    return client.put(`events/accept_event/${resource.id}`, { data: { resource: entity } })
+    .then((response) => {
+      toastr.success('Вы успешно стали участником события')
+      loadSuccess('event', response)
+    })
+  }
 
   render () {
     const { event } = this.props
@@ -28,7 +51,22 @@ export default class Show extends Component {
       <div className="container">
         <div className="panel panel-default">
           <div className="panel-heading">
-            <h4>Детали события</h4>
+            <div className="container-fluid">
+              <div className="row">
+                <h4 className="pull-left">Детали события</h4>
+                {event.resource.event_owner && <Link to={`/event/update/${event.resource.id}`}
+                  className="pull-right">
+                  <button type="button" className="btn btn-primary">
+                    <i className="fa fa-pencil mr"/>
+                    Обновить
+                  </button>
+                </Link>}
+                {!event.resource.event_owner && <button type="button" className="btn btn-primary pull-right"
+                  onClick={::this.acceptEvent}>
+                  Пойти
+                </button>}
+              </div>
+            </div>
           </div>
           <div className="panel-body">
             <div className="container-fluid">

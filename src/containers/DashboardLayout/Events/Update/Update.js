@@ -4,25 +4,31 @@ import Helmet from 'react-helmet'
 import { EventForm } from 'components'
 import GoogleMap from 'google-map-react'
 import { connect } from 'react-redux'
-import { createEvent } from 'redux/modules/events'
+import { updateEvent } from 'redux/modules/events'
 import { toastr } from 'react-redux-toastr'
+import { asyncConnect } from 'redux-async-connect'
 // utils
 import responseErrorsParser from 'helpers/responseErrorsParser'
-
+// constants
 const marker = require('../../../../../static/marker.svg')
 
-@connect((state) => ({ user: state.auth.user }), { createEvent })
-export default class Create extends Component {
+@asyncConnect([
+  { key: 'event',
+    promise: ({ params, helpers }) => helpers.client.get(`events/${params.id}`)
+  }
+])
+@connect((state) => ({ user: state.auth.user }), { updateEvent })
+export default class Update extends Component {
   static defaultProps = {
-    defaultCenter: { lat: 49, lng: 32 },
-    zoom: 9
+    defaultCenter: { lat: 49, lng: 32 }
   };
 
   static propTypes = {
     zoom: PropTypes.number,
     defaultCenter: PropTypes.object,
-    createEvent: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    updateEvent: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    event: PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -33,13 +39,23 @@ export default class Create extends Component {
     super(...props)
 
     this.state = {
-      markerLocation: { lat: 49, lng: 32 },
+      markerLocation: {},
       mapCenter: undefined
     }
   }
 
+  componentDidMount () {
+    const { event: { resource } } = this.props
+    const markerLocation = {
+      lat: resource.lat,
+      lng: resource.lng
+    }
+
+    this.setState({ markerLocation: markerLocation })
+  }
+
   handleSubmit (data) {
-    const { createEvent, user } = this.props
+    const { updateEvent, user, event } = this.props
     const { router } = this.context
 
     const startHours = new Date(data.start_time).getHours()
@@ -54,7 +70,7 @@ export default class Create extends Component {
     data.private = data['_private']
     data['_private'] = undefined
 
-    return createEvent(data, user.id).then(() => {
+    return updateEvent(data, user.id, event.resource.id).then(() => {
       router.push('dashboard/events')
       toastr.success('Событие успешно создано')
     }).catch((errors) => responseErrorsParser(errors))
@@ -70,20 +86,30 @@ export default class Create extends Component {
 
   render () {
     const { markerLocation, mapCenter } = this.state
-    const mapOptions = { mapTypeControl: false, streetViewControl: false, center: mapCenter, zoom: mapCenter ? 13 : 9 }
+    const { event, defaultCenter } = this.props
+    const initialLocation = {
+      lat: event.resource.lat,
+      lng: event.resource.lng
+    }
+    const mapOptions = { mapTypeControl: false, streetViewControl: false,
+      center: mapCenter || initialLocation, zoom: 13 }
     const initialValues = {
-      members_count: 1,
-      start_date: null,
-      start_time: null,
-      approximate_time: null
+      members_count: event.resource.members_count,
+      title: event.resource.title,
+      subtitle: event.resource.subtitle,
+      address: event.resource.address,
+      start_date: new Date(event.resource.start_date),
+      start_time: new Date(event.resource.start_date),
+      approximate_time: new Date(event.resource.approximate_time),
+      _private: event.resource.private
     }
     return (
       <div>
-        <Helmet title="Event Create"/>
+        <Helmet title="Event Update"/>
         <div className="container">
           <div className="panel panel-default">
             <div className="panel-heading">
-              <h4>Создание события</h4>
+              <h4>Обновление события</h4>
             </div>
             <div className="panel-body">
               <div className="container-fluid">
@@ -91,11 +117,12 @@ export default class Create extends Component {
                   <div className="col-sm-6">
                     <span>Карта</span>
                     <div style={{ height: '350px' }}>
-                      <GoogleMap {...mapOptions} defaultCenter={this.props.defaultCenter}>
+                      {event && <GoogleMap {...mapOptions}
+                        defaultCenter={defaultCenter}>
                         <span lat={markerLocation.lat} lng={markerLocation.lng}>
                           <img src={marker} alt="marker" style={{ maxWidth: '30px' }} />
                         </span>
-                      </GoogleMap>
+                      </GoogleMap>}
                     </div>
                   </div>
                   <div className="col-sm-6">

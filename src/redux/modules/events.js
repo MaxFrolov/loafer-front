@@ -81,10 +81,10 @@ export function createEvent (data, userID) {
   }
 }
 
-export function updateEvent (id, data) {
+export function updateEvent (data, userID, eventID) {
   return (dispatch, getState, client) => {
     dispatch(setEventLoading(true))
-    return client.put(`events/${id}`, { data: { resource: data } })
+    return client.put(`users/${userID}/events/${eventID}`, { data: { resource: data } })
       .then((response) => {
         dispatch(updateEventData(response.resource))
         dispatch(setEventLoading(false))

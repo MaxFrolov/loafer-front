@@ -20,6 +20,7 @@ import {
   EventCreate,
   EventShow,
   EventsMap,
+  EventUpdate,
   InnerLayout,
   LandingLayout
 } from 'containers'
@@ -78,6 +79,7 @@ export default (store, client, authData) => {
           <IndexRedirect to="new" />
           <Route path="new" component={EventCreate}/>
           <Route path="show/:id" component={EventShow}/>
+          <Route path="update/:id" component={EventUpdate}/>
         </Route>
       </Route>
       <Route path="*" component={NotFound} status={404}/>

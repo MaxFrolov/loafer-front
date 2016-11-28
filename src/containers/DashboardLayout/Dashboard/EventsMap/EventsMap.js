@@ -11,13 +11,13 @@ import moment from 'moment'
 export default class EventsMap extends Component {
 
   static defaultProps = {
-    center: { lat: 50.450878, lng: 30.523744 },
+    defaultCenter: { lat: 50.450878, lng: 30.523744 },
     zoom: 9
   };
 
   static propTypes = {
     zoom: PropTypes.number,
-    center: PropTypes.object,
+    defaultCenter: PropTypes.object,
     events: PropTypes.object.isRequired
   };
 
@@ -70,7 +70,7 @@ export default class EventsMap extends Component {
         <div className="col-sm-12 mt-20"
           style={{ height: '400px' }}>
           <GoogleMap
-            defaultCenter={this.props.center}
+            defaultCenter={this.props.defaultCenter}
             defaultZoom={this.props.zoom}>
             {events.resources.map((event, idx) => (
               <EventMarker lat={event.lat} lng={event.lng} event={event} index={idx} key={idx} />

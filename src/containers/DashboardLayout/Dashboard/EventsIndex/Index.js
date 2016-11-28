@@ -34,9 +34,12 @@ export default class EventsIndex extends Component {
                     <span>{moment(item.start_date).format('HH:mm')}</span>
                   </div>
                   <div className="media-box-body clearfix">
-                    <div className={cx('label label-success', 'owner-label')}>Мое событие</div>
+                    {item.event_owner && <div className={cx('label label-success', 'owner-label')}>
+                    Мое событие</div>}
                     <p>
-                      <span className="fs-16 fw-b">{item.title}</span>
+                      <Link to={`/event/show/${item.id}`}>
+                        <span className="fs-16 fw-b">{item.title}</span>
+                      </Link>
                       <br />
                       <i>{item.subtitle}</i>
                     </p>
@@ -46,9 +49,6 @@ export default class EventsIndex extends Component {
                       <br />
                       <span className="text-bold">Количество мест: </span><span>{item.members_count}</span>
                     </p>
-                    <div className="text-center mt-20">
-                      <Link to={`/event/show/${item.id}`} className="btn btn-default">Детали события</Link>
-                    </div>
                   </div>
                 </div>
               </div>

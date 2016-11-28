@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react'
 import { asyncConnect, loadSuccess } from 'redux-async-connect'
 import GoogleMap from 'google-map-react'
 import { Link } from 'react-router'
-import toastr from 'react-redux-toastr'
+import { toastr } from 'react-redux-toastr'
 import { connect } from 'react-redux'
 // utils
 import moment from 'moment'
@@ -21,12 +21,14 @@ export default class Show extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
+    defaultCenter: PropTypes.object,
     zoom: PropTypes.number.isRequired,
     loadSuccess: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    zoom: 9
+    zoom: 13,
+    defaultCenter: { lat: 50.450878, lng: 30.523744 }
   };
 
   static contextTypes = {
@@ -46,7 +48,11 @@ export default class Show extends Component {
   }
 
   render () {
-    const { event } = this.props
+    const { event, defaultCenter, zoom } = this.props
+    const eventLocation = {
+      lat: event.resource.lat,
+      lng: event.resource.lng
+    }
     return (
       <div className="container">
         <div className="panel panel-default">
@@ -61,10 +67,13 @@ export default class Show extends Component {
                     Обновить
                   </button>
                 </Link>}
-                {!event.resource.event_owner && <button type="button" className="btn btn-primary pull-right"
-                  onClick={::this.acceptEvent}>
+                {!event.resource.event_owner && !event.resource.event_participant && <button type="button"
+                  className="btn btn-primary pull-right" onClick={::this.acceptEvent}>
                   Пойти
                 </button>}
+                {event.resource.event_participant && <div className="label label-success pull-right">
+                  Участник события
+                </div>}
               </div>
             </div>
           </div>
@@ -73,8 +82,8 @@ export default class Show extends Component {
               <div className="row">
                 <div className="col-sm-6">
                   <div style={{ height: '350px' }}>
-                    <GoogleMap defaultCenter={{ lat: event.resource.lat, lng: event.resource.lng }}
-                      defaultZoom={this.props.zoom}>
+                    <GoogleMap defaultCenter={defaultCenter} center={eventLocation}
+                      defaultZoom={zoom}>
                       <span lat={event.resource.lat} lng={event.resource.lng}>
                         <img src={marker} alt="marker" className="img-responsive" style={{ maxWidth: '30px' }} />
                       </span>
@@ -100,7 +109,7 @@ export default class Show extends Component {
                       </tr>
                       <tr>
                         <td className="text-bold">Количество мест:</td>
-                        <td className="text-right">{event.resource.members_count}</td>
+                        <td className="text-right">{event.resource.participants_count} / {event.resource.members_count}</td>
                       </tr>
                     </tbody>
                   </table>

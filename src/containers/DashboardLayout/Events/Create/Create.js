@@ -14,7 +14,7 @@ const marker = require('../../../../../static/marker.svg')
 @connect((state) => ({ user: state.auth.user }), { createEvent })
 export default class Create extends Component {
   static defaultProps = {
-    defaultCenter: { lat: 49, lng: 32 },
+    defaultCenter: { lat: 50.450878, lng: 30.523744 },
     zoom: 9
   };
 

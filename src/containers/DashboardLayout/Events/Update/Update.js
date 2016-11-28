@@ -20,7 +20,7 @@ const marker = require('../../../../../static/marker.svg')
 @connect((state) => ({ user: state.auth.user }), { updateEvent })
 export default class Update extends Component {
   static defaultProps = {
-    defaultCenter: { lat: 49, lng: 32 }
+    defaultCenter: { lat: 50.450878, lng: 30.523744 }
   };
 
   static propTypes = {
@@ -44,16 +44,6 @@ export default class Update extends Component {
     }
   }
 
-  componentDidMount () {
-    const { event: { resource } } = this.props
-    const markerLocation = {
-      lat: resource.lat,
-      lng: resource.lng
-    }
-
-    this.setState({ markerLocation: markerLocation })
-  }
-
   handleSubmit (data) {
     const { updateEvent, user, event } = this.props
     const { router } = this.context
@@ -72,7 +62,7 @@ export default class Update extends Component {
 
     return updateEvent(data, user.id, event.resource.id).then(() => {
       router.push('dashboard/events')
-      toastr.success('Событие успешно создано')
+      toastr.success('Событие успешно обновлено')
     }).catch((errors) => responseErrorsParser(errors))
   }
 
@@ -86,7 +76,7 @@ export default class Update extends Component {
 
   render () {
     const { markerLocation, mapCenter } = this.state
-    const { event, defaultCenter } = this.props
+    const { event } = this.props
     const initialLocation = {
       lat: event.resource.lat,
       lng: event.resource.lng
@@ -117,9 +107,8 @@ export default class Update extends Component {
                   <div className="col-sm-6">
                     <span>Карта</span>
                     <div style={{ height: '350px' }}>
-                      {event && <GoogleMap {...mapOptions}
-                        defaultCenter={defaultCenter}>
-                        <span lat={markerLocation.lat} lng={markerLocation.lng}>
+                      {event && <GoogleMap {...mapOptions} defaultCenter={this.props.defaultCenter}>
+                        <span lat={markerLocation.lat || event.resource.lat} lng={markerLocation.lng || event.resource.lng}>
                           <img src={marker} alt="marker" style={{ maxWidth: '30px' }} />
                         </span>
                       </GoogleMap>}

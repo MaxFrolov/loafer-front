@@ -76,7 +76,6 @@ export function registration (data) {
 export function login (data) {
   return (dispatch, getState, client) => client.post('auth/sign_in', { data, auth: true })
     .then((response) => {
-      console.log(response)
       dispatch(setCurrentUser(response.resource))
     })
 }

@@ -103,7 +103,7 @@ export default class InnerHeader extends Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        {participantEvents.resources && <div className={styles['upcoming-events-wrapper']}>
+        {participantEvents.resources.length && <div className={styles['upcoming-events-wrapper']}>
           <div className="container">
             <div className={styles['upcoming-events-header']}>
               <h3>Ближайшее событие</h3>

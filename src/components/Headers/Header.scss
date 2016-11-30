@@ -31,6 +31,7 @@
   :global {
     .navbar {
       border-radius: 0;
+      margin-bottom: 0;
     }
 
     .navbar-inverse {
@@ -55,5 +56,25 @@
       border-radius: 50%;
       width: 40px;
     }
+  }
+}
+
+.upcoming-events-wrapper {
+  padding-bottom: 21px;
+  margin-bottom: 25px;
+  background-color: #23282d;
+
+  .upcoming-events-header {
+    border-bottom: 2px solid #fff;
+    text-align: right;
+
+    h3 {
+      color: #fff;
+      text-transform: uppercase;
+    }
+  }
+
+  .upcoming-events-body {
+    color: #fff;
   }
 }

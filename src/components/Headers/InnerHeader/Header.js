@@ -8,17 +8,21 @@ import { logout } from 'redux/modules/auth'
 // styles
 import styles from '../Header.scss'
 import classNames from 'classnames/bind'
+// utils
+import moment from 'moment'
 // constants
 const avatarPlaceholder = require('../../../../static/user.svg')
 const cx = classNames.bind(styles)
 const logo = require('../logo-transparent.png')
 
-@connect((store) => ({ user: store.auth.user, router: store.routing }), { logout })
+@connect((store) => ({ user: store.auth.user, router: store.routing,
+  participantEvents: store.reduxAsyncConnect.participant_events }), { logout })
 export default class InnerHeader extends Component {
 
   static propTypes = {
     user: React.PropTypes.object,
-    logout: React.PropTypes.func.isRequired
+    logout: React.PropTypes.func.isRequired,
+    participantEvents: React.PropTypes.object
   };
 
   static contextTypes = {
@@ -31,7 +35,7 @@ export default class InnerHeader extends Component {
   }
 
   render () {
-    const { user } = this.props
+    const { user, participantEvents } = this.props
     const fullName = user && user.full_name
     const authorize = (
       <Navbar default>
@@ -99,6 +103,34 @@ export default class InnerHeader extends Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
+        {participantEvents.resources.length && <div className={styles['upcoming-events-wrapper']}>
+          <div className="container">
+            <div className={styles['upcoming-events-header']}>
+              <h3>Ближайшее событие</h3>
+            </div>
+            <div className="container-fluid mt-15">
+              {participantEvents.resources.map((item, idx) => (
+                <div className={cx('row text-center', 'upcoming-events-body')} key={idx}>
+                  <div className="col-sm-4">
+                    <i className="fa fa-user mr-10 fs-18"/>
+                    <span className="fs-16">{item.owner.full_name}</span>
+                  </div>
+                  <div className="col-sm-4">
+                    <i className="fa fa-map-marker mr-10 fs-18"/>
+                    <span className="fs-16">{item.address}</span>
+                  </div>
+                  <div className="col-sm-4">
+                    <i className="fa fa-calendar mr-10 fs-18"/>
+                    <span className="fs-16">{moment(item.start_date).format('D MMMM Y HH:mm')}</span>
+                  </div>
+                  <div className="col-sm-12">
+                    <h3>{item.title}</h3>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>}
       </div>
     )
   }

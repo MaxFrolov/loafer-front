@@ -44,6 +44,16 @@ export default class Show extends Component {
     .then((response) => {
       toastr.success('Вы успешно стали участником события')
       loadSuccess('event', response)
+      this.fetchParticipantEvents()
+    })
+  }
+
+  fetchParticipantEvents () {
+    const { client } = this.context
+    const { loadSuccess } = this.props
+
+    return client.get('events/participant_events').then((response) => {
+      loadSuccess('participant_events', response)
     })
   }
 
@@ -71,9 +81,10 @@ export default class Show extends Component {
                   className="btn btn-primary pull-right" onClick={::this.acceptEvent}>
                   Пойти
                 </button>}
-                {event.resource.event_participant && <div className="label label-success pull-right">
-                  Участник события
-                </div>}
+                {event.resource.event_participant && !event.resource.event_owner &&
+                  <div className="label label-success pull-right">
+                    Участник события
+                  </div>}
               </div>
             </div>
           </div>
